@@ -1,0 +1,6 @@
+@the_grand_egyptian_museum_HostAddress = http://localhost:5017
+
+GET {{the_grand_egyptian_museum_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
