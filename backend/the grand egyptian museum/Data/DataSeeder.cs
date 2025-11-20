@@ -1,5 +1,6 @@
 using the_grand_egyptian_museum.Models;
 using BCrypt.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace the_grand_egyptian_museum.Data
 {
@@ -11,8 +12,8 @@ namespace the_grand_egyptian_museum.Data
             {
                 var context = scope.ServiceProvider.GetRequiredService<Storecontext>();
 
-                // Ensure database is created (optional but good for local dev, though migrations are preferred)
-                // context.Database.EnsureCreated();
+                // Apply pending migrations
+                context.Database.Migrate();
 
                 // Seed Users
                 if (!context.Users.Any())
