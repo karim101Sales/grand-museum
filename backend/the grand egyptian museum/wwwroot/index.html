@@ -2531,28 +2531,31 @@
                     return;
                 }
                 
-                if ($scope.editorMode === 'edit') {
-                    // Find and update the monument in the array
-                    var index = $scope.monuments.findIndex(function(m) {
-                        return m.id === $scope.editingMonument.id;
+                var apiPayload = {
+                    Title: $scope.editingMonument.name,
+                    Description: $scope.editingMonument.description,
+                    Era: $scope.editingMonument.era,
+                    Location: $scope.editingMonument.location,
+                    Discoverd: new Date($scope.editingMonument.discovered),
+                    KeyFeatures: $scope.editingMonument.features,
+                    Image: $scope.editingMonument.image,
+                    Id: $scope.editorMode === 'edit' ? $scope.editingMonument.id : 0
+                };
+
+                $http.post('/api/Values', apiPayload)
+                    .then(function(response) {
+                        $scope.loadMonuments();
+                        $scope.showToast($scope.editorMode === 'edit' ? 'Monument updated successfully!' : 'New monument created successfully!', 'success');
+                        $scope.lastSaved = true;
+
+                        // Close editor after a short delay
+                        $timeout(function() {
+                            $scope.showEditor = false;
+                        }, 1500);
+                    }, function(error) {
+                        console.error('Error saving monument:', error);
+                        $scope.showToast('Failed to save monument.', 'error');
                     });
-                    
-                    if (index !== -1) {
-                        $scope.monuments[index] = angular.copy($scope.editingMonument);
-                        $scope.showToast('Monument updated successfully!', 'success');
-                    }
-                } else {
-                    // Add new monument
-                    $scope.monuments.push(angular.copy($scope.editingMonument));
-                    $scope.showToast('New monument created successfully!', 'success');
-                }
-                
-                $scope.lastSaved = true;
-                
-                // Close editor after a short delay
-                $timeout(function() {
-                    $scope.showEditor = false;
-                }, 1500);
             };
             
             // DELETE - Confirm and delete monument
@@ -2567,17 +2570,16 @@
             };
             
             $scope.deleteMonument = function() {
-                var index = $scope.monuments.findIndex(function(m) {
-                    return m.id === $scope.deletingMonument.id;
-                });
-                
-                if (index !== -1) {
-                    $scope.monuments.splice(index, 1);
-                    $scope.showToast('Monument deleted successfully!', 'success');
-                }
-                
-                $scope.showDeleteConfirm = false;
-                $scope.deletingMonument = {};
+                $http.delete('/api/Values?id=' + $scope.deletingMonument.id)
+                    .then(function(response) {
+                        $scope.loadMonuments();
+                        $scope.showToast('Monument deleted successfully!', 'success');
+                        $scope.showDeleteConfirm = false;
+                        $scope.deletingMonument = {};
+                    }, function(error) {
+                        console.error('Error deleting monument:', error);
+                        $scope.showToast('Failed to delete monument.', 'error');
+                    });
             };
             
             // Form validation

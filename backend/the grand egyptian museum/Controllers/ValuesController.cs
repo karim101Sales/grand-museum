@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using the_grand_egyptian_museum.Models;
 
 namespace the_grand_egyptian_museum.Controllers
@@ -19,25 +20,49 @@ namespace the_grand_egyptian_museum.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Cards>> getCards()
+        public async Task<ActionResult<List<Cards>>> getCards()
         {
-            return _context.Cards.ToList();
+            return await _context.Cards.ToListAsync();
         }
+
+        [Authorize]
         [HttpPost]
-        public IActionResult postCards([FromBody] Cards cards)
+        public async Task<IActionResult> postCards([FromBody] Cards cards)
         {
-            var Cards =  _context.Cards.Add(cards);
-            _context.SaveChanges();
-            return Ok("added succsesfully");
+            if (cards.Id == 0)
+            {
+                _context.Cards.Add(cards);
+            }
+            else
+            {
+                var existingCard = await _context.Cards.FindAsync(cards.Id);
+                if (existingCard == null)
+                {
+                    return NotFound();
+                }
+
+                existingCard.Title = cards.Title;
+                existingCard.Description = cards.Description;
+                existingCard.Era = cards.Era;
+                existingCard.Location = cards.Location;
+                existingCard.Discoverd = cards.Discoverd;
+                existingCard.KeyFeatures = cards.KeyFeatures;
+                existingCard.Image = cards.Image;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(cards);
         }
+
+        [Authorize]
         [HttpDelete]
-        public IActionResult deleteCards(int id)
+        public async Task<IActionResult> deleteCards(int id)
         {
-            var card = _context.Cards.FirstOrDefault(c=> c.Id == id);
+            var card = await _context.Cards.FindAsync(id);
             if (card == null)
                 return NotFound();
             _context.Cards.Remove(card);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok("deleted successfully");
         }
     }
