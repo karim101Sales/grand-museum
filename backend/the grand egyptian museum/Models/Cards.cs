@@ -1,4 +1,4 @@
-﻿namespace the_grand_egyptian_museum.Models
+namespace the_grand_egyptian_museum.Models
 {
     public class Cards
     {
@@ -9,5 +9,6 @@
         public string Location { get; set; }
         public DateTime Discoverd { get; set; }
         public List<string> KeyFeatures { get; set; }
+        public string? Image { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using the_grand_egyptian_museum;
@@ -12,9 +13,11 @@ using the_grand_egyptian_museum;
 namespace the_grand_egyptian_museum.Migrations
 {
     [DbContext(typeof(Storecontext))]
-    partial class StorecontextModelSnapshot : ModelSnapshot
+    [Migration("20251120114613_AddImageColumn")]
+    partial class AddImageColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
