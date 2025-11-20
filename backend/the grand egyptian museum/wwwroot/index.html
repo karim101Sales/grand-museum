@@ -2338,9 +2338,18 @@
     <script>
         angular.module('museumApp', ['ngAnimate'])
             .controller('MainController', function ($scope, $timeout, $http) {
+                // Strictly at the top: Check for token
+                if (localStorage.getItem('jwt_token')) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.getItem('jwt_token');
+                    $scope.isAdmin = true;
+                }
+
                 // Initial state
                 $scope.currentView = 'home';
-                $scope.isAdmin = false;
+                // Only set to false if not already set by the token check above
+                if (typeof $scope.isAdmin === 'undefined') {
+                    $scope.isAdmin = false;
+                }
                 $scope.isUser = false;
                 $scope.showUserLoginModal = false;
                 $scope.showAdminLoginModal = false;
@@ -2569,9 +2578,22 @@
 
                 // UPDATE - Save monument
                 $scope.saveMonument = function () {
+                    console.log("Starting saveMonument...");
+
                     if (!$scope.isFormValid()) {
                         $scope.showToast('Please fill in all required fields.', 'error');
                         return;
+                    }
+
+                    // VALIDATION: Checks if KeyFeatures is null and initializes it to [] if needed
+                    if (!$scope.editingMonument.features) {
+                        $scope.editingMonument.features = [];
+                    }
+
+                    // DATE FIX: robustly handles the Discoverd field
+                    var discoverdDate = $scope.editingMonument.discovered ? new Date($scope.editingMonument.discovered) : new Date();
+                    if (isNaN(discoverdDate.getTime())) {
+                        discoverdDate = new Date();
                     }
 
                     var apiPayload = {
@@ -2579,11 +2601,13 @@
                         Description: $scope.editingMonument.description,
                         Era: $scope.editingMonument.era,
                         Location: $scope.editingMonument.location,
-                        Discoverd: new Date($scope.editingMonument.discovered),
+                        Discoverd: discoverdDate,
                         KeyFeatures: $scope.editingMonument.features,
                         Image: $scope.editingMonument.image,
                         Id: $scope.editorMode === 'edit' ? $scope.editingMonument.id : 0
                     };
+
+                    console.log("Sending payload:", apiPayload);
 
                     $http.post('/api/Values', apiPayload)
                         .then(function (response) {
@@ -2595,7 +2619,8 @@
                             $timeout(function () {
                                 $scope.showEditor = false;
                             }, 1500);
-                        }, function (error) {
+                        })
+                        .catch(function (error) {
                             console.error('Error saving monument:', error);
                             $scope.showToast('Failed to save monument.', 'error');
                         });
