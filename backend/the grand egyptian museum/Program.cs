@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using the_grand_egyptian_museum;
+using the_grand_egyptian_museum.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -79,5 +80,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapFallbackToFile("index.html");
+
+using (var scope = app.Services.CreateScope())
+{
+    DataSeeder.Initialize(scope.ServiceProvider);
+}
 
 app.Run();

@@ -53,7 +53,7 @@ namespace the_grand_egyptian_museum.Controllers
                 Password = passwordHash,
                 Email = registerDto.Email,
                 Name = registerDto.Name,
-                Role = registerDto.Role,
+                Role = "User", // Force Role to be "User"
                 
             };
 
