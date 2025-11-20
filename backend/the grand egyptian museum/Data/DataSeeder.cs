@@ -12,51 +12,51 @@ namespace the_grand_egyptian_museum.Data
             {
                 var context = scope.ServiceProvider.GetRequiredService<Storecontext>();
 
-                // Apply pending migrations
+                // 1. Ensure Database is Created (The fix we added earlier)
                 context.Database.Migrate();
 
-                // Seed Users
+                // 2. Seed Admin User
                 if (!context.Users.Any())
                 {
-                    var adminUser = new User
+                    var passwordHash = BCrypt.Net.BCrypt.HashPassword("admin123");
+                    context.Users.Add(new Models.User
                     {
-                        Name = "Admin User",
+                        Name = "Admin",
                         Email = "admin@museum.com",
                         UserName = "admin",
-                        Password = BCrypt.Net.BCrypt.HashPassword("admin123"),
+                        Password = passwordHash,
                         Role = "Admin"
-                    };
-                    context.Users.Add(adminUser);
+                    });
                     context.SaveChanges();
                 }
 
-                // Seed Cards (Monuments)
+                // 3. Seed Monuments
                 if (!context.Cards.Any())
                 {
-                    var monuments = new List<Cards>
-                    {
-                        new Cards
+                    context.Cards.AddRange(
+                        new Models.Cards
                         {
-                            Title = "Sphinx",
-                            Description = "The Great Sphinx of Giza is a limestone statue of a reclining sphinx, a mythical creature.",
+                            Title = "Great Sphinx of Giza",
+                            Description = "A limestone statue of a reclining sphinx, a mythical creature.",
                             Era = "Old Kingdom",
-                            Location = "Giza",
-                            Discoverd = DateTime.Now.AddYears(-4500), // Approximate
+                            Location = "Giza Plateau",
+                            // FIX: Use a valid AD date (e.g. First modern excavation)
+                            Discoverd = new DateTime(1817, 1, 1).ToUniversalTime(),
                             KeyFeatures = new List<string> { "Limestone", "Lion Body", "Human Head" },
                             Image = "DP-24216-003.jpg"
                         },
-                        new Cards
+                        new Models.Cards
                         {
-                            Title = "Ramses II",
-                            Description = "A statue of Ramses II, the third pharaoh of the Nineteenth Dynasty of Egypt.",
+                            Title = "Statue of Ramses II",
+                            Description = "A 3,200-year-old statue of Ramses II.",
                             Era = "New Kingdom",
-                            Location = "Abu Simbel", // Or Memphis, generalized
-                            Discoverd = DateTime.Now.AddYears(-3200),
-                            KeyFeatures = new List<string> { "Colossal", "Granite", "Pharaoh" },
+                            Location = "Memphis",
+                            // FIX: Use a valid AD date
+                            Discoverd = new DateTime(1820, 1, 1).ToUniversalTime(),
+                            KeyFeatures = new List<string> { "Red Granite", "Colossal Scale" },
                             Image = "146991_1.jpg"
                         }
-                    };
-                    context.Cards.AddRange(monuments);
+                    );
                     context.SaveChanges();
                 }
             }
