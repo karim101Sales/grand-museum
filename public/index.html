@@ -2294,7 +2294,7 @@
 
     <script>
         angular.module('museumApp', ['ngAnimate'])
-        .controller('MainController', function($scope, $timeout) {
+        .controller('MainController', function($scope, $timeout, $http) {
             // Initial state
             $scope.currentView = 'home';
             $scope.isAdmin = false;
@@ -2336,138 +2336,24 @@
                        ($scope.studentTickets || 0) * 120;
             };
             
-            // Sample monument data (simulated database) - EXTENSIVE COLLECTION
-            $scope.monuments = [
-                {
-                    id: 1,
-                    name: "Statue of Ramses II",
-                    era: "13th century BC",
-                    location: "Memphis",
-                    discovered: "1820",
-                    shortDescription: "A colossal statue of one of Egypt's most powerful pharaohs.",
-                    description: "This magnificent statue depicts Ramses II, one of ancient Egypt's most powerful and celebrated pharaohs. Standing at over 10 meters tall, the statue was originally located at the Great Temple of Ptah in Memphis. It showcases the exceptional craftsmanship of New Kingdom sculptors and provides valuable insights into royal portraiture of the period.",
-                    image: "146991_1.jpg",
-                    features: ["Over 10 meters tall", "Made of red granite", "Detailed hieroglyphic inscriptions", "Well-preserved facial features"],
-                    status: "published",
-                    views: 1542,
-                    favorites: 87
-                },
-                {
-                    id: 2,
-                    name: "Golden Mask of Tutankhamun",
-                    era: "New Kingdom",
-                    location: "Valley of the Kings",
-                    discovered: "1922",
-                    shortDescription: "The iconic golden funeral mask of the boy pharaoh.",
-                    description: "The Golden Mask of Tutankhamun is perhaps the most famous artifact from ancient Egypt. Discovered by Howard Carter in 1922, this exquisite mask covered the head of the mummified king. Made of solid gold and inlaid with semi-precious stones and colored glass, it represents the pinnacle of ancient Egyptian goldsmithing.",
-                    image: "i.jpg",
-                    features: ["Made of solid gold", "Inlaid with lapis lazuli", "Weighs 10.23 kg", "Height: 54 cm"],
-                    status: "published",
-                    views: 2895,
-                    favorites: 203
-                },
-                {
-                    id: 3,
-                    name: "Rosetta Stone",
-                    era: "Ptolemaic Period",
-                    location: "Rashid (Rosetta)",
-                    discovered: "1799",
-                    shortDescription: "The key that unlocked the mystery of Egyptian hieroglyphs.",
-                    description: "The Rosetta Stone is a granodiorite stele inscribed with three versions of a decree issued in Memphis, Egypt, in 196 BC. The top and middle texts are in Ancient Egyptian using hieroglyphic and Demotic scripts respectively, while the bottom is in Ancient Greek. The discovery of the stone was crucial to the modern understanding of Egyptian hieroglyphs.",
-                    image: "rosettastone.jpg",
-                    features: ["Three scripts: Hieroglyphs, Demotic, Greek", "Key to deciphering hieroglyphs", "Dated to 196 BC", "Height: 112 cm"],
-                    status: "published",
-                    views: 5421,
-                    favorites: 421
-                },
-                {
-                    id: 4,
-                    name: "Narmer Palette",
-                    era: "Early Dynastic Period",
-                    location: "Hierakonpolis",
-                    discovered: "1897-1898",
-                    shortDescription: "One of the earliest historical records from ancient Egypt.",
-                    description: "The Narmer Palette is a significant Egyptian archaeological find, dating from about the 31st century BC. It contains some of the earliest hieroglyphic inscriptions ever found. The tablet is thought by some to depict the unification of Upper and Lower Egypt under King Narmer, who is shown wearing both the white crown of Upper Egypt and the red crown of Lower Egypt.",
-                    image: "250px-Narmer_Palette_smiting_side.jpg",
-                    features: ["Carved from siltstone", "Dated to c. 3100 BC", "Early hieroglyphic inscriptions", "Depicts unification of Egypt"],
-                    status: "draft",
-                    views: 876,
-                    favorites: 54
-                },
-                {
-                    id: 5,
-                    name: "Bust of Nefertiti",
-                    era: "New Kingdom",
-                    location: "Amarna",
-                    discovered: "1912",
-                    shortDescription: "The iconic bust of the Great Royal Wife of Akhenaten.",
-                    description: "The Bust of Nefertiti is one of the most famous works of art from ancient Egypt. Nefertiti was the Great Royal Wife of the Egyptian Pharaoh Akhenaten. The bust is notable for exemplifying the understanding ancient Egyptians had regarding realistic facial proportions. It remains an icon of feminine beauty and power from the ancient world.",
-                    image: "Nefertiti-Bust.jpg",
-                    features: ["Painted limestone bust", "Height: 48 cm", "Well-preserved colors", "Symmetric features"],
-                    status: "published",
-                    views: 3210,
-                    favorites: 298
-                },
-                {
-                    id: 6,
-                    name: "Sphinx of Hatshepsut",
-                    era: "New Kingdom",
-                    location: "Deir el-Bahari",
-                    discovered: "1920s",
-                    shortDescription: "A sphinx depicting the female pharaoh Hatshepsut.",
-                    description: "This sphinx represents the female pharaoh Hatshepsut, who ruled Egypt during the 18th Dynasty. Unlike traditional sphinxes that have a lion's body with a king's head, this one combines a lion's body with Hatshepsut's head, complete with the royal false beard and nemes headdress. The statue was part of her extensive building program at Deir el-Bahari.",
-                    image: "DP-24216-003.jpg",
-                    features: ["Made of granite", "Female pharaoh depiction", "False beard symbolizing power", "From Deir el-Bahari temple"],
-                    status: "published",
-                    views: 1876,
-                    favorites: 132
-                }
-                 ,{
-                    id: 7,
-                    name: "Pharaoh Akhenaten",
-                    era: "New Kingdom",
-                    location: "modern-day Amarna, Middle Egypt.",
-                    discovered: "late 19th century",
-                    shortDescription: "Akhenaten was a revolutionary pharaoh known for introducing monotheism in Egypt, worshiping one god — the Aten (the Sun Disk) — and changing art, religion, and culture dramatically during his reign.",
-                    description: "Pharaoh Akhenaten, originally named Amenhotep IV, was a ruler of Egypt’s 18th Dynasty who broke centuries of traditional Egyptian religion. He shifted worship from the many gods of Egypt to focus solely on Aten",
-                    image: "Akhenaten-903362574-3b329d6-e1708959199110.jpg",
-                    features: ["Made of granite", "Female pharaoh depiction", "False beard symbolizing power", "From Deir el-Bahari temple"],
-                    status: "published",
-                    views: 1876,
-                    favorites: 132
-                }
-                ,{
-                    id: 8,
-                    name: "Senwosret I",
-                    era: "Middle Kingdom of Ancient Egypt",
-                    location: "Located in Lisht, Karnak, and Heliopolis",
-                    discovered: "In the early 20th century.",
-                    shortDescription: "Senusret I was one of the most powerful kings of the 12th Dynasty, known for strengthening Egypt’s unity",
-                    description: "Senusret I, son of Amenemhat I, ruled during Egypt’s Middle Kingdom and played a key role in restoring stability after his father’s assassination. He expanded Egypt’s influence into Nubia and Libya.",
-                    image: "Senwosret_I_(ca._1878-1839_BCE)_wearing_the_red_crown_of_Lower_Egypt,_Lisht.jpg",
-                    features: ["Made of granite", "Female pharaoh depiction", "False beard symbolizing power", "From Deir el-Bahari temple"],
-                    status: "published",
-                    views: 1876,
-                    favorites: 132
-                }
-                 ,{
-                    id: 9,
-                    name: "Mummy mask man cartonnage gold",
-                    era: "Late Period to Ptolemaic Period of Ancient Egypt",
-                    location: "Egypt, often found in burial sites such as Thebes, Saqqara, or Faiyum",
-                    discovered: "19th and early 20th centuries",
-                    shortDescription: "A funerary mask made of cartonnage (layers of linen and plaster), covered with gold leaf",
-                    description: "This type of mummy mask was placed over the face of the wrapped mummy. The cartonnage—a material made from layers of linen or papyrus soaked in plaster—was molded to fit the face and upper chest",
-                    image: "Mummy_mask_man_cartonnage_gold_Manchester_Museum_Ptolemaic_Lahun_AN_2121.jpg",
-                    features: ["Made of granite", "Female pharaoh depiction", "False beard symbolizing power", "From Deir el-Bahari temple"],
-                    status: "published",
-                    views: 1876,
-                    favorites: 132
-                }
-            ];
-            
-            // Featured monuments for home page
-            $scope.featuredMonuments = $scope.monuments.slice(0, 6);
+            // Data Loading
+            $scope.monuments = [];
+            $scope.featuredMonuments = [];
+
+            $scope.loadMonuments = function() {
+                $http.get('/api/monuments')
+                    .then(function(response) {
+                        $scope.monuments = response.data;
+                        $scope.featuredMonuments = $scope.monuments.slice(0, 6);
+                    })
+                    .catch(function(error) {
+                        console.error('Error loading monuments:', error);
+                        $scope.showToast('Error loading monuments. Please try again.', 'error');
+                    });
+            };
+
+            // Load data on initialization
+            $scope.loadMonuments();
             
             // Navigation functions
             $scope.showHome = function() {
@@ -2613,27 +2499,35 @@
                 }
                 
                 if ($scope.editorMode === 'edit') {
-                    // Find and update the monument in the array
-                    var index = $scope.monuments.findIndex(function(m) {
-                        return m.id === $scope.editingMonument.id;
-                    });
-                    
-                    if (index !== -1) {
-                        $scope.monuments[index] = angular.copy($scope.editingMonument);
-                        $scope.showToast('Monument updated successfully!', 'success');
-                    }
+                    $http.put('/api/monuments/' + $scope.editingMonument.id, $scope.editingMonument)
+                        .then(function(response) {
+                            $scope.loadMonuments(); // Reload to show changes
+                            $scope.showToast('Monument updated successfully!', 'success');
+                            $scope.lastSaved = true;
+                            $timeout(function() {
+                                $scope.showEditor = false;
+                            }, 1500);
+                        })
+                        .catch(function(error) {
+                            console.error('Error updating monument:', error);
+                            $scope.showToast('Error updating monument.', 'error');
+                        });
                 } else {
                     // Add new monument
-                    $scope.monuments.push(angular.copy($scope.editingMonument));
-                    $scope.showToast('New monument created successfully!', 'success');
+                    $http.post('/api/monuments', $scope.editingMonument)
+                        .then(function(response) {
+                            $scope.loadMonuments(); // Reload to include new item
+                            $scope.showToast('New monument created successfully!', 'success');
+                            $scope.lastSaved = true;
+                            $timeout(function() {
+                                $scope.showEditor = false;
+                            }, 1500);
+                        })
+                        .catch(function(error) {
+                            console.error('Error creating monument:', error);
+                            $scope.showToast('Error creating monument.', 'error');
+                        });
                 }
-                
-                $scope.lastSaved = true;
-                
-                // Close editor after a short delay
-                $timeout(function() {
-                    $scope.showEditor = false;
-                }, 1500);
             };
             
             // DELETE - Confirm and delete monument
@@ -2648,17 +2542,17 @@
             };
             
             $scope.deleteMonument = function() {
-                var index = $scope.monuments.findIndex(function(m) {
-                    return m.id === $scope.deletingMonument.id;
-                });
-                
-                if (index !== -1) {
-                    $scope.monuments.splice(index, 1);
-                    $scope.showToast('Monument deleted successfully!', 'success');
-                }
-                
-                $scope.showDeleteConfirm = false;
-                $scope.deletingMonument = {};
+                $http.delete('/api/monuments/' + $scope.deletingMonument.id)
+                    .then(function(response) {
+                        $scope.loadMonuments(); // Reload list
+                        $scope.showToast('Monument deleted successfully!', 'success');
+                        $scope.showDeleteConfirm = false;
+                        $scope.deletingMonument = {};
+                    })
+                    .catch(function(error) {
+                        console.error('Error deleting monument:', error);
+                        $scope.showToast('Error deleting monument.', 'error');
+                    });
             };
             
             // Form validation
