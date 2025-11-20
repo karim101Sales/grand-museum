@@ -9,6 +9,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Add this to your CSS styles */
+        .btn:disabled {
+            background: #555 !important;
+            color: #aaa !important;
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+            transform: none !important;
+        }
+
         .arbutus-slab-regular {
             font-family: "Arbutus Slab", serif;
             font-weight: 400;
@@ -2159,7 +2169,10 @@
                             <i class="fas fa-cloud-upload-alt"></i>
                             <p>Click to upload an image or drag and drop</p>
                             <p class="small-text">PNG, JPG, GIF up to 10MB</p>
-                            <input type="file" id="file-upload" style="display: none;" accept="image/*">
+
+
+                            <input type="file" id="file-upload" style="display: none;" accept="image/*"
+                                onchange="angular.element(this).scope().uploadFile(this.files)">
                         </div>
 
                         <img ng-src="{{editingMonument.image}}" alt="Preview" class="image-preview"
@@ -2760,6 +2773,29 @@
                     alert('Booking confirmed! Total: EGP ' + $scope.calculateTotal() + '\nYou will be redirected to payment.');
                     $scope.closeBooking();
                 };
+
+                // --- ADD THIS NEW FUNCTION ---
+                $scope.uploadFile = function (files) {
+                    var file = files[0];
+                    if (file) {
+                        // Check file size (limit to 2MB to prevent database lag)
+                        if (file.size > 2 * 1024 * 1024) {
+                            alert("File is too large! Please choose an image under 2MB.");
+                            return;
+                        }
+
+                        var reader = new FileReader();
+                        reader.onload = function (event) {
+                            $scope.$apply(function () {
+                                // Convert file to Base64 string
+                                $scope.editingMonument.image = event.target.result;
+                                $scope.lastSaved = false;
+                            });
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                // -----------------------------
 
                 // File upload handler
                 document.addEventListener('DOMContentLoaded', function () {

@@ -1,8 +1,9 @@
 # The Grand Egyptian Museum - Digital Twin
 
+
 Welcome to the **The Grand Egyptian Museum** project! This application is a "Digital Twin" of the museum, designed to showcase monuments, manage user authentication, and provide an interactive experience.
 
-This guide acts as a tutorial to help you understand the codebase, run it locally on Windows, and deploy it for free to the cloud.
+This guide acts as a tutorial to help you understand the codebase, run it locally (via Code or Docker), and deploy it for free to the cloud using **Koyeb** and **Neon**.
 
 ---
 
@@ -11,107 +12,103 @@ This guide acts as a tutorial to help you understand the codebase, run it locall
 This project follows a **Modular Monolith** architecture where the Backend serves the Frontend as static files.
 
 ### Tech Stack
-*   **Backend**: .NET 8 (C#) - High-performance Web API.
-*   **Database**: PostgreSQL - Robust relational database.
-*   **ORM**: Entity Framework Core 9 - Data access and migrations.
-*   **Frontend**: AngularJS - Legacy but powerful Single Page Application (SPA) framework.
-*   **Containerization**: Docker - For consistent deployment.
+* **Backend**: .NET 8 (C#) - High-performance Web API.
+* **Database**: PostgreSQL - Robust relational database.
+* **ORM**: Entity Framework Core 9 - Data access and migrations.
+* **Frontend**: AngularJS - Legacy but powerful Single Page Application (SPA) framework.
+* **Containerization**: Docker - For consistent deployment.
 
 ### 📂 Codebase Walkthrough
 
 Here is a tour of the key directories in `backend/the grand egyptian museum/`:
 
-*   **`Controllers/`**: The entry points for the API.
-    *   `AuthController.cs`: Handles Login and Registration. Registration is secured to force the "User" role.
-    *   `ValuesController.cs`: (Likely) manages the Cards/Monuments data.
-*   **`Models/`**: Defines the shape of data.
-    *   `User.cs`: Represents a registered user.
-    *   `Cards.cs`: Represents a museum monument (Title, Description, Image, Era, etc.).
-*   **`Data/`**: Database logic.
-    *   `Storecontext.cs`: The bridge between the code and the PostgreSQL database.
-    *   `DataSeeder.cs`: **Cold Start Fix**. Automatically adds an Admin user and sample monuments (Sphinx, Ramses II) if the database is empty. It also runs Auto-Migrations.
-*   **`wwwroot/`**: The Frontend lives here!
-    *   Contains `index.html`, `.js` files, and `images`.
-    *   The backend is configured to serve these files and fallback to `index.html` for SPA routing.
-*   **`Program.cs`**: The application startup. Configures Middleware, DB connections, and Dependency Injection.
-*   **`Dockerfile`**: Instructions for building the app inside a container.
+* **`Controllers/`**: The entry points for the API (e.g., `AuthController.cs` for login/register).
+* **`Models/`**: Defines the shape of data (`User.cs`, `Cards.cs`).
+* **`Data/`**: Database logic. `DataSeeder.cs` automatically seeds an Admin user and monuments on startup.
+* **`wwwroot/`**: The Frontend lives here (`index.html`, images, js).
+* **`Dockerfile`**: Instructions for building the app inside a container.
 
 ---
 
-## 💻 Local Development Guide (Windows)
+## 🐳 Local Development Guide (Docker)
 
-Follow these steps to run the project on your local machine.
+The easiest way to run the application locally is using Docker, as it simulates the production environment.
 
 ### 1. Prerequisites
-Install the following software:
-*   **[PostgreSQL](https://www.postgresql.org/download/windows/)**: The database server.
-*   **[.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)**: Required to build and run the code.
-*   **[Visual Studio Code](https://code.visualstudio.com/)** or **Visual Studio 2022**.
+* **[Docker Desktop](https://www.docker.com/products/docker-desktop/)**: Installed and running.
+* **Neon Database**: A generic PostgreSQL connection string from [Neon.tech](https://neon.tech).
 
-### 2. Database Setup
-1.  Open **pgAdmin** (comes with PostgreSQL) or a terminal.
-2.  Create a new database named `grandmuseum`.
-    *   *Note*: The default connection string assumes `User=postgres` and `Password=postgres`.
-3.  If your password is different, update `backend/the grand egyptian museum/appsettings.json`:
-    ```json
-    "ConnectionStrings": {
-      "DefaultConnection": "Host=localhost;Database=grandmuseum;Username=postgres;Password=YOUR_PASSWORD"
-    }
-    ```
+### 2. Build the Image
+Navigate to the project folder in your terminal and build the image:
 
-### 3. Running the Application
-1.  Open your terminal (PowerShell or Command Prompt).
-2.  Navigate to the project folder:
-    ```powershell
-    cd "backend/the grand egyptian museum"
-    ```
-3.  Run the application:
-    ```powershell
-    dotnet run
-    ```
-    *   *First Run Magic*: The app will automatically create the database tables and seed the initial data (Admin user & Monuments) thanks to `DataSeeder.cs`.
-4.  Open your browser and visit: `http://localhost:5176` (or the port shown in the terminal).
+```powershell
+cd "backend/the grand egyptian museum"
+docker build -t grandmuseum .
+````
 
----
+### 3\. Run the Container
 
-## ☁️ Free Deployment Guide (Render.com)
+Run the container by passing your database connection string as an environment variable.
 
-We will use **Render.com** because it supports Docker and has a free tier.
+> **Important:** You must format the connection string as `Key=Value` (not the default `postgresql://` URL) for .NET to read it correctly.
 
-### Step 1: Prepare the Database (Neon.tech or Render Postgres)
-Since Render's free web services spin down, it's best to use a free managed Postgres database.
-1.  Go to [Neon.tech](https://neon.tech) (Generous free tier).
-2.  Create a project and copy the **Connection String** (looks like `postgres://user:pass@endpoint...`).
+**Format:** `Host=...;Database=...;Username=...;Password=...;Ssl Mode=Require`
 
-### Step 2: Deploy the App on Render
-1.  Push this code to a **GitHub Repository**.
-2.  Log in to [Render.com](https://render.com).
-3.  Click **New +** -> **Web Service**.
-4.  Connect your GitHub repository.
-5.  **Configure the Service**:
-    *   **Runtime**: Select **Docker**.
-    *   **Region**: Choose one close to you (e.g., Frankfurt or Oregon).
-    *   **Instance Type**: Free.
-6.  **Environment Variables** (Advanced):
-    *   Add a generic environment variable for the database connection.
-    *   Key: `ConnectionStrings__DefaultConnection` (Note the double underscore).
-    *   Value: Paste your connection string from Step 1.
-    *   *Alternatively*, you can edit `appsettings.json` before pushing, but Environment Variables are safer.
-7.  Click **Create Web Service**.
+```powershell
+docker run -p 8080:8080 -e "ConnectionStrings__DefaultConnection=Host=ep-jolly-breeze-a4n47zlq-pooler.us-east-1.aws.neon.tech;Database=neondb;Username=neondb_owner;Password=YOUR_PASSWORD;Ssl Mode=Require" grandmuseum
+```
 
-### Step 3: Verification
-Render will build the Docker image (using the `Dockerfile` we created).
-*   It will restore .NET packages.
-*   It will copy the `wwwroot` frontend.
-*   It will start the app.
-*   **On Startup**: The `DataSeeder` will run, migrate your cloud database, and seed the data.
+Open your browser and visit: `http://localhost:8080`
 
-Open your Render URL (e.g., `https://grand-museum.onrender.com`). You should see the site live with the Sphinx and Ramses II images!
+-----
 
----
+## ☁️ Free Deployment Guide (Koyeb)
+
+We use **Koyeb** for hosting because it has a generous free tier and excellent Docker support.
+
+### Step 1: Database Setup (Neon.tech)
+
+1.  Create a free project on [Neon.tech](https://neon.tech).
+2.  Copy the **Connection String**.
+3.  **Crucial:** Convert the connection string from the URL format (`postgresql://...`) to the Key-Value format needed for .NET:
+      * *From:* `postgresql://user:pass@host/db?sslmode=require`
+      * *To:* `Host=host;Database=db;Username=user;Password=pass;Ssl Mode=Require`
+
+### Step 2: Deploy on Koyeb
+
+1.  Push your code to **GitHub**.
+2.  Log in to **[Koyeb.com](https://www.koyeb.com)** and create a new **Web Service**.
+3.  Select **GitHub** as the source and choose your repository.
+
+### Step 3: Configure Build Settings (Important)
+
+Since the project is in a subfolder, you must configure the builder exactly as follows:
+
+  * **Builder**: Dockerfile
+  * **Work Directory**: `backend/the grand egyptian museum`
+      * *This tells Koyeb to enter this folder before building.*
+  * **Dockerfile Location**: `Dockerfile`
+      * *Since we changed the Work Directory, the file is now right there.*
+
+### Step 4: Environment Variables
+
+Add the database connection so the app can start and seed data.
+
+  * **Key**: `ConnectionStrings__DefaultConnection` (Note the double underscore `__`)
+  * **Value**: Your **Key=Value** formatted connection string from Step 1.
+
+### Step 5: Ports
+
+  * **Port**: Change the exported port from `8000` to **`8080`**.
+      * *This matches the `EXPOSE 8080` instruction in our Dockerfile.*
+
+Click **Deploy**. The app will build, run the database migrations automatically, and go live\!
+
+-----
 
 ## 🔐 Default Credentials (Seeded)
 
-If you log in with these credentials, you will have Admin access:
-*   **Username**: `admin`
-*   **Password**: `admin123`
+On the first deployment, the app will automatically create an Admin user:
+
+  * **Username**: `admin`
+  * **Password**: `admin123`

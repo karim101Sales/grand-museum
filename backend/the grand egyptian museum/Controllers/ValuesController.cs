@@ -25,34 +25,54 @@ namespace the_grand_egyptian_museum.Controllers
             return await _context.Cards.ToListAsync();
         }
 
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> postCards([FromBody] Cards cards)
+[Authorize]
+[HttpPost]
+public async Task<IActionResult> postCards([FromBody] Cards cards)
+{
+    // 1. Check if data arrived correctly
+    if (cards == null)
+    {
+        return BadRequest("No data received.");
+    }
+
+    // 2. Validate the model
+    if (!ModelState.IsValid)
+    {
+        return BadRequest(ModelState);
+    }
+
+    try
+    {
+        if (cards.Id == 0)
         {
-            if (cards.Id == 0)
-            {
-                _context.Cards.Add(cards);
-            }
-            else
-            {
-                var existingCard = await _context.Cards.FindAsync(cards.Id);
-                if (existingCard == null)
-                {
-                    return NotFound();
-                }
-
-                existingCard.Title = cards.Title;
-                existingCard.Description = cards.Description;
-                existingCard.Era = cards.Era;
-                existingCard.Location = cards.Location;
-                existingCard.Discoverd = cards.Discoverd;
-                existingCard.KeyFeatures = cards.KeyFeatures;
-                existingCard.Image = cards.Image;
-            }
-
-            await _context.SaveChangesAsync();
-            return Ok(cards);
+            // Add New
+            _context.Cards.Add(cards);
         }
+        else
+        {
+            // Update Existing
+            var existingCard = await _context.Cards.FindAsync(cards.Id);
+            if (existingCard == null) return NotFound($"Card {cards.Id} not found");
+
+            existingCard.Title = cards.Title;
+            existingCard.Description = cards.Description;
+            existingCard.Era = cards.Era;
+            existingCard.Location = cards.Location;
+            existingCard.Discoverd = cards.Discoverd;
+            existingCard.KeyFeatures = cards.KeyFeatures;
+            existingCard.Image = cards.Image;
+        }
+
+        await _context.SaveChangesAsync();
+        return Ok(cards);
+    }
+    catch (Exception ex)
+    {
+        // This will print the error to your terminal running "dotnet run"
+        Console.WriteLine($"CRITICAL ERROR: {ex.Message}");
+        return StatusCode(500, $"Internal Server Error: {ex.Message}");
+    }
+}
 
         [Authorize]
         [HttpDelete]
