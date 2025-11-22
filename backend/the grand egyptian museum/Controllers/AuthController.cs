@@ -53,7 +53,7 @@ namespace the_grand_egyptian_museum.Controllers
                 Password = passwordHash,
                 Email = registerDto.Email,
                 Name = registerDto.Name,
-                Role = registerDto.Role,
+                Role = "User", // Force Role to be "User"
                 
             };
 
@@ -77,8 +77,7 @@ namespace the_grand_egyptian_museum.Controllers
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisIsASecretKeyForDevPurposesOnly123!"));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisIsASecretKeyForDevPurposesOnly123!_MustBeLongerThanThis_ToSatisfy_SHA512"));            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
                 claims: claims,

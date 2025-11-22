@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="museumApp">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Add this to your CSS styles */
+        .btn:disabled {
+            background: #555 !important;
+            color: #aaa !important;
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+            transform: none !important;
+        }
+
         .arbutus-slab-regular {
-  font-family: "Arbutus Slab", serif;
-  font-weight: 400;
-  font-style: normal;
-}
+            font-family: "Arbutus Slab", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
 
         * {
             margin: 0;
@@ -139,7 +150,8 @@
             left: 100%;
         }
 
-        nav a:hover, nav a.active {
+        nav a:hover,
+        nav a.active {
             background: rgba(206, 17, 38, 0.2);
             color: white;
             box-shadow: 0 5px 15px rgba(206, 17, 38, 0.3);
@@ -1339,7 +1351,8 @@
             visibility: visible;
         }
 
-        .login-modal, .booking-modal {
+        .login-modal,
+        .booking-modal {
             background: linear-gradient(145deg, var(--card-bg), #152435);
             width: 90%;
             max-width: 500px;
@@ -1369,12 +1382,13 @@
             position: relative;
             overflow: hidden;
         }
-        .redft{
+
+        .redft {
             text-align: center;
             font-size: 43px;
             color: #a8843a;
-            
-            
+
+
         }
 
         .modal-header:before {
@@ -1568,19 +1582,39 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes slideIn {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         /* Responsive Design */
@@ -1588,24 +1622,24 @@
             .detail-header {
                 flex-direction: column;
             }
-            
+
             .detail-image {
                 width: 100%;
                 max-height: 400px;
             }
-            
+
             .booking-options {
                 grid-template-columns: 1fr;
             }
-            
+
             .editor-body {
                 grid-template-columns: 1fr;
             }
-            
+
             .preview-section {
                 position: static;
             }
-            
+
             .admin-stats {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1616,59 +1650,60 @@
                 flex-direction: column;
                 gap: 20px;
             }
-            
+
             nav ul {
                 gap: 10px;
             }
-            
+
             .cards-container {
                 grid-template-columns: 1fr;
             }
-            
+
             .action-buttons {
                 justify-content: center;
             }
-            
+
             .footer-content {
                 flex-direction: column;
                 gap: 25px;
             }
-            
+
             .form-row {
                 grid-template-columns: 1fr;
             }
-            
+
             .editor-actions {
                 flex-direction: column;
                 width: 100%;
             }
-            
+
             .editor-actions .btn {
                 width: 100%;
             }
-            
+
             .admin-stats {
                 grid-template-columns: 1fr;
             }
-            
+
             .admin-controls {
                 flex-direction: column;
             }
-            
+
             .search-box {
                 min-width: 100%;
             }
-            
+
             .filter-controls {
                 flex-direction: column;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
             }
         }
     </style>
 </head>
+
 <body ng-controller="MainController">
     <header>
         <div class="egypt-flag-header"></div>
@@ -1684,9 +1719,12 @@
                 <nav>
                     <ul>
                         <li><a href="#" ng-class="{active: currentView === 'home'}" ng-click="showHome()">Home</a></li>
-                        <li><a href="#" ng-class="{active: currentView === 'monuments'}" ng-click="showMonuments()">Monuments</a></li>
-                        <li><a href="#" ng-class="{active: currentView === 'about'}" ng-click="showAbout()">About</a></li>
-                        <li><a href="#" ng-class="{active: currentView === 'admin'}" ng-click="showAdmin()" ng-show="isAdmin">Admin</a></li>
+                        <li><a href="#" ng-class="{active: currentView === 'monuments'}"
+                                ng-click="showMonuments()">Monuments</a></li>
+                        <li><a href="#" ng-class="{active: currentView === 'about'}" ng-click="showAbout()">About</a>
+                        </li>
+                        <li><a href="#" ng-class="{active: currentView === 'admin'}" ng-click="showAdmin()"
+                                ng-show="isAdmin">Admin</a></li>
                     </ul>
                 </nav>
                 <div class="user-controls">
@@ -1708,13 +1746,16 @@
         <!-- Home View -->
         <div ng-if="currentView === 'home'" class="fade-in">
             <h2 class="page-title">Welcome to the Grand Egyptian Museum</h2>
-            <p style="text-align: center; font-size: 1.3rem; max-width: 900px; margin: 0 auto 50px; line-height: 1.7; color: #c8d6e5;">
-                Explore the rich history of Egypt through our extensive collection of ancient monuments and artifacts. 
-                Our state-of-the-art museum showcases treasures from different eras of Egyptian civilization in an immersive experience.
+            <p
+                style="text-align: center; font-size: 1.3rem; max-width: 900px; margin: 0 auto 50px; line-height: 1.7; color: #c8d6e5;">
+                Explore the rich history of Egypt through our extensive collection of ancient monuments and artifacts.
+                Our state-of-the-art museum showcases treasures from different eras of Egyptian civilization in an
+                immersive experience.
             </p>
-            
+
             <div class="cards-container">
-                <div class="card slide-in" ng-repeat="monument in featuredMonuments" ng-click="showMonumentDetail(monument)">
+                <div class="card slide-in" ng-repeat="monument in featuredMonuments"
+                    ng-click="showMonumentDetail(monument)">
                     <img ng-src="{{monument.image}}" alt="{{monument.name}}" class="card-image">
                     <div class="card-content">
                         <h3 class="card-title">{{monument.name}}</h3>
@@ -1729,7 +1770,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div style="text-align: center; margin-top: 50px;">
                 <button class="btn btn-primary" ng-click="showMonuments()">
                     <i class="fas fa-compass"></i> Explore All Monuments
@@ -1740,7 +1781,7 @@
         <!-- Monuments View -->
         <div ng-if="currentView === 'monuments'" class="fade-in">
             <h2 class="page-title">Discover Egyptian Treasures</h2>
-            
+
             <div class="cards-container">
                 <div class="card slide-in" ng-repeat="monument in monuments" ng-click="showMonumentDetail(monument)">
                     <img ng-src="{{monument.image}}" alt="{{monument.name}}" class="card-image">
@@ -1764,7 +1805,7 @@
             <button class="back-button" ng-click="showMonuments()">
                 <i class="fas fa-arrow-left"></i>
             </button>
-            
+
             <div class="detail-header">
                 <img ng-src="{{selectedMonument.image}}" alt="{{selectedMonument.name}}" class="detail-image">
                 <div class="detail-info">
@@ -1775,7 +1816,7 @@
                         <span><strong>Discovered:</strong> {{selectedMonument.discovered}}</span>
                     </div>
                     <p class="detail-description">{{selectedMonument.description}}</p>
-                    
+
                     <div class="detail-features">
                         <h3>Key Features</h3>
                         <div class="feature-list">
@@ -1785,7 +1826,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="action-buttons">
                         <button class="btn btn-egypt pulse">
                             <i class="fas fa-vr-cardboard"></i> Virtual Tour
@@ -1807,37 +1848,43 @@
         <!-- About View -->
         <div ng-if="currentView === 'about'" class="fade-in">
             <h2 class="page-title">About the Grand Egyptian Museum</h2>
-            
-            <div style="background: linear-gradient(145deg, var(--card-bg), #152435); border-radius: 20px; padding: 40px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); margin-bottom: 50px; border: 1px solid rgba(206, 17, 38, 0.3);">
+
+            <div
+                style="background: linear-gradient(145deg, var(--card-bg), #152435); border-radius: 20px; padding: 40px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); margin-bottom: 50px; border: 1px solid rgba(206, 17, 38, 0.3);">
                 <h3 style="color: var(--egypt-gold); margin-bottom: 25px; font-size: 1.8rem;">Our Mission</h3>
                 <p style="line-height: 1.8; margin-bottom: 30px; color: #c8d6e5; font-size: 1.1rem;">
-                    The Grand Egyptian Museum is dedicated to preserving and showcasing Egypt's rich cultural heritage. 
-                    Our state-of-the-art facility houses one of the most comprehensive collections of Egyptian 
+                    The Grand Egyptian Museum is dedicated to preserving and showcasing Egypt's rich cultural heritage.
+                    Our state-of-the-art facility houses one of the most comprehensive collections of Egyptian
                     antiquities in the world, spanning over 5,000 years of history. With cutting-edge technology
                     and immersive exhibits, we bring ancient Egypt to life for visitors from around the globe.
                 </p>
-                
-                <div style="height: 2px; background: linear-gradient(to right, var(--egypt-red), var(--egypt-white), var(--egypt-black)); margin: 30px 0; border-radius: 2px;"></div>
-                
+
+                <div
+                    style="height: 2px; background: linear-gradient(to right, var(--egypt-red), var(--egypt-white), var(--egypt-black)); margin: 30px 0; border-radius: 2px;">
+                </div>
+
                 <h3 style="color: var(--egypt-gold); margin-bottom: 25px; font-size: 1.8rem;">Visitor Information</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
                     <div>
-                        <h4 style="color: var(--egypt-red); margin-bottom: 15px; font-size: 1.3rem;"><i class="fas fa-clock"></i> Hours</h4>
+                        <h4 style="color: var(--egypt-red); margin-bottom: 15px; font-size: 1.3rem;"><i
+                                class="fas fa-clock"></i> Hours</h4>
                         <p style="color: #c8d6e5;">Monday - Friday: 9:00 AM - 8:00 PM<br>
-                        Saturday - Sunday: 10:00 AM - 10:00 PM</p>
+                            Saturday - Sunday: 10:00 AM - 10:00 PM</p>
                     </div>
                     <div>
-                        <h4 style="color: var(--egypt-red); margin-bottom: 15px; font-size: 1.3rem;"><i class="fas fa-map-marker-alt"></i> Location</h4>
+                        <h4 style="color: var(--egypt-red); margin-bottom: 15px; font-size: 1.3rem;"><i
+                                class="fas fa-map-marker-alt"></i> Location</h4>
                         <p style="color: #c8d6e5;">Giza Plateau, Cairo, Egypt<br>
-                        Near the Great Pyramids</p>
+                            Near the Great Pyramids</p>
                     </div>
                     <div>
-                        <h4 style="color: var(--egypt-red); margin-bottom: 15px; font-size: 1.3rem;"><i class="fas fa-phone"></i> Contact</h4>
+                        <h4 style="color: var(--egypt-red); margin-bottom: 15px; font-size: 1.3rem;"><i
+                                class="fas fa-phone"></i> Contact</h4>
                         <p style="color: #c8d6e5;">Email: info@grandegyptianmuseum.org<br>
-                        Phone: +20 2 1234 5678</p>
+                            Phone: +20 2 1234 5678</p>
                     </div>
                 </div>
-                
+
                 <div style="text-align: center; margin-top: 40px;">
                     <button class="btn btn-egypt" ng-click="showBookingModal()">
                         <i class="fas fa-map-marked-alt"></i> Plan Your Visit
@@ -1858,7 +1905,7 @@
                         <i class="fas fa-plus-circle"></i> Add New Monument
                     </button>
                 </div>
-                
+
                 <div class="admin-stats">
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-monument"></i></div>
@@ -1881,13 +1928,13 @@
                         <div class="stat-label">Favorites</div>
                     </div>
                 </div>
-                
+
                 <div class="admin-controls">
                     <div class="search-box">
                         <i class="fas fa-search search-icon"></i>
                         <input type="text" class="search-input" placeholder="Search monuments..." ng-model="searchText">
                     </div>
-                    
+
                     <div class="filter-controls">
                         <select class="filter-select" ng-model="filterEra">
                             <option value="">All Eras</option>
@@ -1896,20 +1943,20 @@
                             <option value="New Kingdom">New Kingdom</option>
                             <option value="Ptolemaic Period">Ptolemaic Period</option>
                         </select>
-                        
+
                         <select class="filter-select" ng-model="sortBy">
                             <option value="name">Sort by Name</option>
                             <option value="era">Sort by Era</option>
                             <option value="location">Sort by Location</option>
                             <option value="views">Sort by Popularity</option>
                         </select>
-                        
+
                         <button class="btn btn-info" ng-click="refreshData()">
                             <i class="fas fa-sync-alt"></i> Refresh
                         </button>
                     </div>
                 </div>
-                
+
                 <table class="monuments-table">
                     <thead>
                         <tr>
@@ -1923,13 +1970,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="monument in filteredMonuments = (monuments | filter:searchFilter | orderBy:sortBy)">
+                        <tr
+                            ng-repeat="monument in filteredMonuments = (monuments | filter:searchFilter | orderBy:sortBy)">
                             <td>
                                 <img ng-src="{{monument.image}}" alt="{{monument.name}}" class="monument-image">
                             </td>
                             <td>
                                 <div class="monument-name">{{monument.name}}</div>
-                                <div style="font-size: 0.8rem; color: #a0b3c5;">{{monument.shortDescription | limitTo: 50}}{{monument.shortDescription.length > 50 ? '...' : ''}}</div>
+                                <div style="font-size: 0.8rem; color: #a0b3c5;">{{monument.shortDescription | limitTo:
+                                    50}}{{monument.shortDescription.length > 50 ? '...' : ''}}</div>
                             </td>
                             <td>
                                 <span class="monument-era">{{monument.era}}</span>
@@ -1968,7 +2017,7 @@
                         </tr>
                     </tbody>
                 </table>
-                
+
                 <div style="margin-top: 30px; text-align: center; color: #a0b3c5;">
                     Showing {{filteredMonuments.length}} of {{monuments.length}} monuments
                 </div>
@@ -1980,7 +2029,8 @@
     <div class="editor-overlay" ng-class="{active: showEditor}">
         <div class="monument-editor">
             <div class="editor-header">
-                <h2 class="editor-title">{{editorMode === 'add' ? 'Add New Monument' : 'Edit Monument: ' + editingMonument.name}}</h2>
+                <h2 class="editor-title">{{editorMode === 'add' ? 'Add New Monument' : 'Edit Monument: ' +
+                    editingMonument.name}}</h2>
                 <div class="editor-actions">
                     <button class="btn btn-success" ng-click="saveMonument()" ng-disabled="!isFormValid()">
                         <i class="fas fa-save"></i> {{editorMode === 'add' ? 'Create Monument' : 'Save Changes'}}
@@ -1993,20 +2043,19 @@
                     </button>
                 </div>
             </div>
-            
+
             <div class="editor-body">
                 <div class="editor-form">
                     <div class="form-section">
                         <h3 class="section-title">Basic Information</h3>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="monument-name">Monument Name *</label>
-                                <input type="text" id="monument-name" class="form-control" 
-                                       ng-model="editingMonument.name" 
-                                       placeholder="Enter monument name" required>
+                                <input type="text" id="monument-name" class="form-control"
+                                    ng-model="editingMonument.name" placeholder="Enter monument name" required>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="monument-era">Historical Era *</label>
                                 <select id="monument-era" class="form-control" ng-model="editingMonument.era" required>
@@ -2025,23 +2074,22 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="monument-location">Location *</label>
-                                <input type="text" id="monument-location" class="form-control" 
-                                       ng-model="editingMonument.location" 
-                                       placeholder="Where is this monument located?" required>
+                                <input type="text" id="monument-location" class="form-control"
+                                    ng-model="editingMonument.location" placeholder="Where is this monument located?"
+                                    required>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="monument-discovered">Discovery Date</label>
-                                <input type="text" id="monument-discovered" class="form-control" 
-                                       ng-model="editingMonument.discovered" 
-                                       placeholder="When was it discovered?">
+                                <input type="text" id="monument-discovered" class="form-control"
+                                    ng-model="editingMonument.discovered" placeholder="When was it discovered?">
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="monument-status">Status</label>
                             <select id="monument-status" class="form-control" ng-model="editingMonument.status">
@@ -2050,41 +2098,42 @@
                                 <option value="archived">Archived</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="monument-short-desc">Short Description *</label>
-                            <textarea id="monument-short-desc" class="form-control" 
-                                      ng-model="editingMonument.shortDescription" 
-                                      placeholder="Brief description for cards and listings" required></textarea>
+                            <textarea id="monument-short-desc" class="form-control"
+                                ng-model="editingMonument.shortDescription"
+                                placeholder="Brief description for cards and listings" required></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <h3 class="section-title">Detailed Description</h3>
-                        
+
                         <div class="form-group">
                             <label for="monument-description">Full Description *</label>
-                            <textarea id="monument-description" class="form-control" 
-                                      ng-model="editingMonument.description" 
-                                      placeholder="Detailed description of the monument, its history, significance, etc." required></textarea>
+                            <textarea id="monument-description" class="form-control"
+                                ng-model="editingMonument.description"
+                                placeholder="Detailed description of the monument, its history, significance, etc."
+                                required></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <h3 class="section-title">Key Features</h3>
-                        
+
                         <div class="feature-editor">
                             <div class="feature-input-group">
-                                <input type="text" class="form-control" 
-                                       ng-model="newFeature" 
-                                       placeholder="Add a key feature">
+                                <input type="text" class="form-control" ng-model="newFeature"
+                                    placeholder="Add a key feature">
                                 <button class="btn btn-egypt" ng-click="addFeature()">
                                     <i class="fas fa-plus"></i> Add
                                 </button>
                             </div>
-                            
+
                             <div class="feature-list">
-                                <div class="feature-item" ng-repeat="feature in editingMonument.features track by $index">
+                                <div class="feature-item"
+                                    ng-repeat="feature in editingMonument.features track by $index">
                                     <span>{{feature}}</span>
                                     <div class="feature-actions">
                                         <button class="feature-btn" ng-click="editFeature($index)">
@@ -2096,7 +2145,8 @@
                                         <button class="feature-btn" ng-click="moveFeatureUp($index)" ng-if="$index > 0">
                                             <i class="fas fa-arrow-up"></i>
                                         </button>
-                                        <button class="feature-btn" ng-click="moveFeatureDown($index)" ng-if="$index < editingMonument.features.length - 1">
+                                        <button class="feature-btn" ng-click="moveFeatureDown($index)"
+                                            ng-if="$index < editingMonument.features.length - 1">
                                             <i class="fas fa-arrow-down"></i>
                                         </button>
                                     </div>
@@ -2104,45 +2154,50 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
+
+
                     <div class="form-section">
                         <h3 class="section-title">Media</h3>
-                        
+
                         <div class="form-group">
                             <label for="monument-image">Image URL *</label>
-                            <input type="text" id="monument-image" class="form-control" 
-                                   ng-model="editingMonument.image" 
-                                   placeholder="Enter image URL or upload a file" required>
+                            <input type="text" id="monument-image" class="form-control" ng-model="editingMonument.image"
+                                placeholder="Enter image URL or upload a file" required>
                         </div>
-                        
+
                         <div class="image-upload" onclick="document.getElementById('file-upload').click()">
                             <i class="fas fa-cloud-upload-alt"></i>
                             <p>Click to upload an image or drag and drop</p>
                             <p class="small-text">PNG, JPG, GIF up to 10MB</p>
-                            <input type="file" id="file-upload" style="display: none;" accept="image/*">
+
+
+                            <input type="file" id="file-upload" style="display: none;" accept="image/*"
+                                onchange="angular.element(this).scope().uploadFile(this.files)">
                         </div>
-                        
-                        <img ng-src="{{editingMonument.image}}" alt="Preview" class="image-preview" ng-class="{active: editingMonument.image}">
+
+                        <img ng-src="{{editingMonument.image}}" alt="Preview" class="image-preview"
+                            ng-class="{active: editingMonument.image}">
                     </div>
                 </div>
-                
+
                 <div class="preview-section">
                     <h3 class="section-title">Live Preview</h3>
-                    
+
                     <div class="preview-card">
-                        <img ng-src="{{editingMonument.image || 'https://via.placeholder.com/400x240/1a2a3a/ffffff?text=No+Image'}}" 
-                             alt="Preview" class="preview-image">
+                        <img ng-src="{{editingMonument.image || 'https://via.placeholder.com/400x240/1a2a3a/ffffff?text=No+Image'}}"
+                            alt="Preview" class="preview-image">
                         <div class="preview-content">
                             <h3 class="preview-title">{{editingMonument.name || 'Monument Name'}}</h3>
-                            <p class="preview-description">{{editingMonument.shortDescription || 'Short description will appear here'}}</p>
-                            
+                            <p class="preview-description">{{editingMonument.shortDescription || 'Short description will
+                                appear here'}}</p>
+
                             <div class="preview-meta">
                                 <span>Era: {{editingMonument.era || 'Unknown'}}</span>
                                 <span>Location: {{editingMonument.location || 'Unknown'}}</span>
                             </div>
-                            
-                            <div class="preview-features" ng-if="editingMonument.features && editingMonument.features.length > 0">
+
+                            <div class="preview-features"
+                                ng-if="editingMonument.features && editingMonument.features.length > 0">
                                 <h4>Key Features</h4>
                                 <div class="preview-feature-list">
                                     <div class="preview-feature-item" ng-repeat="feature in editingMonument.features">
@@ -2155,13 +2210,13 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="editor-footer">
                 <div class="status-indicator">
                     <div class="status-dot" ng-class="{saved: lastSaved}"></div>
                     <span>{{lastSaved ? 'All changes saved' : 'Unsaved changes'}}</span>
                 </div>
-                
+
                 <div>
                     <button class="btn btn-primary" ng-click="saveMonument()" ng-disabled="!isFormValid()">
                         <i class="fas fa-save"></i> {{editorMode === 'add' ? 'Create Monument' : 'Save Changes'}}
@@ -2223,11 +2278,13 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="user-username">Username</label>
-                    <input type="text" id="user-username" class="form-control" placeholder="Enter your username" ng-model="loginData.username">
+                    <input type="text" id="user-username" class="form-control" placeholder="Enter your username"
+                        ng-model="loginData.username">
                 </div>
                 <div class="form-group">
                     <label for="user-password">Password</label>
-                    <input type="password" id="user-password" class="form-control" placeholder="Enter your password" ng-model="loginData.password">
+                    <input type="password" id="user-password" class="form-control" placeholder="Enter your password"
+                        ng-model="loginData.password">
                 </div>
                 <div class="form-group">
                     <label>
@@ -2252,17 +2309,16 @@
                 <p class="modal-subtitle">Access the administration panel</p>
             </div>
             <div class="modal-body">
+
                 <div class="form-group">
                     <label for="admin-username">Username</label>
-                    <input type="text" id="admin-username" class="form-control" placeholder="Enter admin username">
+                    <input type="text" id="admin-username" class="form-control" placeholder="Enter admin username"
+                        ng-model="adminLoginData.username">
                 </div>
                 <div class="form-group">
                     <label for="admin-password">Password</label>
-                    <input type="password" id="admin-password" class="form-control" placeholder="Enter admin password">
-                </div>
-                <div class="form-group">
-                    <label for="admin-2fa">Two-Factor Authentication</label>
-                    <input type="text" id="admin-2fa" class="form-control" placeholder="Enter 2FA code">
+                    <input type="password" id="admin-password" class="form-control" placeholder="Enter admin password"
+                        ng-model="adminLoginData.password">
                 </div>
                 <div class="modal-actions">
                     <button class="close-modal" ng-click="closeAdminLogin()">Cancel</button>
@@ -2294,424 +2350,473 @@
 
     <script>
         angular.module('museumApp', ['ngAnimate'])
-        .controller('MainController', function($scope, $timeout, $http) {
-            // Initial state
-            $scope.currentView = 'home';
-            $scope.isAdmin = false;
-            $scope.isUser = false;
-            $scope.showUserLoginModal = false;
-            $scope.showAdminLoginModal = false;
-            $scope.showBookingModal = false;
-            $scope.showEditor = false;
-            $scope.showDeleteConfirm = false;
-            $scope.showSuccessToast = false;
-            $scope.toastMessage = '';
-            $scope.loginData = { username: '', password: '' };
-            $scope.adminLoginData = { username: '', password: '' };
-            
-            // Search and filter
-            $scope.searchText = '';
-            $scope.filterEra = '';
-            $scope.sortBy = 'name';
-            
-            // Editor variables
-            $scope.editorMode = 'add';
-            $scope.editingMonument = {};
-            $scope.newFeature = '';
-            $scope.lastSaved = false;
-            $scope.editFeatureIndex = -1;
-            
-            // Delete variables
-            $scope.deletingMonument = {};
-            
-            // Ticket booking variables
-            $scope.adultTickets = 0;
-            $scope.childTickets = 0;
-            $scope.seniorTickets = 0;
-            $scope.studentTickets = 0;
-            
-            // Calculate total ticket price
-            $scope.calculateTotal = function() {
-                return ($scope.adultTickets || 0) * 200 + 
-                       ($scope.childTickets || 0) * 100 + 
-                       ($scope.seniorTickets || 0) * 150 + 
-                       ($scope.studentTickets || 0) * 120;
-            };
-            
-            $scope.monuments = [];
-
-            $scope.loadMonuments = function() {
-                $http.get('/api/Values')
-                    .then(function(response) {
-                        $scope.monuments = response.data.map(function(item) {
-                            return {
-                                id: item.id,
-                                name: item.title,
-                                era: item.era,
-                                location: item.location,
-                                discovered: new Date(item.discoverd).getFullYear().toString(),
-                                shortDescription: item.description ? item.description.substring(0, 100) + '...' : '',
-                                description: item.description,
-                                image: item.image || 'https://via.placeholder.com/400x240/1a2a3a/ffffff?text=No+Image',
-                                features: item.keyFeatures || [],
-                                status: 'published',
-                                views: 0,
-                                favorites: 0
-                            };
-                        });
-                        $scope.featuredMonuments = $scope.monuments.slice(0, 6);
-                    }, function(error) {
-                        console.error('Error loading monuments:', error);
-                        $scope.showToast('Failed to load monuments.', 'error');
-                    });
-            };
-
-            // Call loadMonuments immediately
-            $scope.loadMonuments();
-            
-            // Featured monuments for home page
-            $scope.featuredMonuments = [];
-            
-            // Navigation functions
-            $scope.showHome = function() {
-                $scope.currentView = 'home';
-            };
-            
-            $scope.showMonuments = function() {
-                $scope.currentView = 'monuments';
-            };
-            
-            $scope.showAbout = function() {
-                $scope.currentView = 'about';
-            };
-            
-            $scope.showAdmin = function() {
-                if ($scope.isAdmin) {
-                    $scope.currentView = 'admin';
+            .controller('MainController', function ($scope, $timeout, $http) {
+                // Strictly at the top: Check for token
+                if (localStorage.getItem('jwt_token')) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.getItem('jwt_token');
+                    $scope.isAdmin = true;
                 }
-            };
-            
-            // Show monument detail
-            $scope.showMonumentDetail = function(monument) {
-                $scope.selectedMonument = monument;
-                $scope.currentView = 'detail';
-            };
-            
-            // View monument details
-            $scope.viewMonument = function(monument) {
-                $scope.selectedMonument = monument;
-                $scope.currentView = 'detail';
-                // Increment view count
-                if (!monument.views) monument.views = 0;
-                monument.views++;
-            };
-            
-            // Admin login
-            $scope.showAdminLogin = function() {
-                $scope.showAdminLoginModal = true;
-            };
-            
-            $scope.performAdminLogin = function() {
-                $http.post('/api/Auth/login', $scope.adminLoginData)
-                    .then(function(response) {
-                        $scope.isAdmin = true;
-                        $scope.showAdminLoginModal = false;
-                        $scope.currentView = 'admin';
-                        localStorage.setItem('jwt_token', response.data.token);
-                        $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                        $scope.showToast('Admin authentication successful! Welcome to the administration panel.', 'success');
-                    }, function(error) {
-                         $scope.showToast('Login failed: ' + (error.data.message || 'Unknown error'), 'error');
-                    });
-            };
-            
-            $scope.logoutAdmin = function() {
-                $scope.isAdmin = false;
+
+                // Initial state
                 $scope.currentView = 'home';
-                localStorage.removeItem('jwt_token');
-                delete $http.defaults.headers.common.Authorization;
-                $scope.showToast('You have been logged out successfully.', 'info');
-            };
-            
-            $scope.showUserLogin = function() {
-                $scope.showUserLoginModal = true;
-            };
-            
-            $scope.closeUserLogin = function() {
+                // Only set to false if not already set by the token check above
+                if (typeof $scope.isAdmin === 'undefined') {
+                    $scope.isAdmin = false;
+                }
+                $scope.isUser = false;
                 $scope.showUserLoginModal = false;
-            };
-            
-            $scope.closeAdminLogin = function() {
                 $scope.showAdminLoginModal = false;
-            };
-            
-            $scope.performUserLogin = function() {
-                 $http.post('/api/Auth/login', $scope.loginData)
-                    .then(function(response) {
-                        $scope.isUser = true;
-                        $scope.showUserLoginModal = false;
-                        localStorage.setItem('jwt_token', response.data.token);
-                        $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                        $scope.showToast('User login successful! Welcome back.', 'success');
-                    }, function(error) {
-                        $scope.showToast('Login failed: ' + (error.data.message || 'Unknown error'), 'error');
-                    });
-            };
-            
-            // Search and filter
-            $scope.searchFilter = function(monument) {
-                var matchesSearch = !$scope.searchText || 
-                    monument.name.toLowerCase().includes($scope.searchText.toLowerCase()) ||
-                    monument.location.toLowerCase().includes($scope.searchText.toLowerCase()) ||
-                    monument.shortDescription.toLowerCase().includes($scope.searchText.toLowerCase());
-                
-                var matchesEra = !$scope.filterEra || monument.era === $scope.filterEra;
-                
-                return matchesSearch && matchesEra;
-            };
-            
-            // Statistics functions
-            $scope.getViewsCount = function() {
-                return $scope.monuments.reduce(function(total, monument) {
-                    return total + (monument.views || 0);
-                }, 0);
-            };
-            
-            $scope.getUniqueVisitors = function() {
-                // In a real app, this would be calculated from actual visitor data
-                return Math.floor($scope.getViewsCount() * 0.3);
-            };
-            
-            $scope.getFavoritesCount = function() {
-                return $scope.monuments.reduce(function(total, monument) {
-                    return total + (monument.favorites || 0);
-                }, 0);
-            };
-            
-            // CRUD Operations
-            
-            // CREATE - Add new monument
-            $scope.showAddForm = function() {
-                $scope.editorMode = 'add';
-                $scope.editingMonument = {
-                    id: $scope.monuments.length + 1,
-                    name: '',
-                    era: '',
-                    location: '',
-                    discovered: '',
-                    shortDescription: '',
-                    description: '',
-                    image: '',
-                    features: [],
-                    status: 'draft',
-                    views: 0,
-                    favorites: 0
-                };
-                $scope.showEditor = true;
-                $scope.lastSaved = false;
-                $scope.newFeature = '';
-                $scope.editFeatureIndex = -1;
-            };
-            
-            // READ - Edit existing monument
-            $scope.editMonument = function(monument) {
-                $scope.editorMode = 'edit';
-                // Create a deep copy to avoid modifying the original until saved
-                $scope.editingMonument = angular.copy(monument);
-                $scope.showEditor = true;
-                $scope.lastSaved = false;
-                $scope.newFeature = '';
-                $scope.editFeatureIndex = -1;
-            };
-            
-            // UPDATE - Save monument
-            $scope.saveMonument = function() {
-                if (!$scope.isFormValid()) {
-                    $scope.showToast('Please fill in all required fields.', 'error');
-                    return;
-                }
-                
-                var apiPayload = {
-                    Title: $scope.editingMonument.name,
-                    Description: $scope.editingMonument.description,
-                    Era: $scope.editingMonument.era,
-                    Location: $scope.editingMonument.location,
-                    Discoverd: new Date($scope.editingMonument.discovered),
-                    KeyFeatures: $scope.editingMonument.features,
-                    Image: $scope.editingMonument.image,
-                    Id: $scope.editorMode === 'edit' ? $scope.editingMonument.id : 0
-                };
-
-                $http.post('/api/Values', apiPayload)
-                    .then(function(response) {
-                        $scope.loadMonuments();
-                        $scope.showToast($scope.editorMode === 'edit' ? 'Monument updated successfully!' : 'New monument created successfully!', 'success');
-                        $scope.lastSaved = true;
-
-                        // Close editor after a short delay
-                        $timeout(function() {
-                            $scope.showEditor = false;
-                        }, 1500);
-                    }, function(error) {
-                        console.error('Error saving monument:', error);
-                        $scope.showToast('Failed to save monument.', 'error');
-                    });
-            };
-            
-            // DELETE - Confirm and delete monument
-            $scope.confirmDelete = function(monument) {
-                $scope.deletingMonument = monument;
-                $scope.showDeleteConfirm = true;
-            };
-            
-            $scope.cancelDelete = function() {
+                $scope.showBookingModal = false;
+                $scope.showEditor = false;
                 $scope.showDeleteConfirm = false;
-                $scope.deletingMonument = {};
-            };
-            
-            $scope.deleteMonument = function() {
-                $http.delete('/api/Values?id=' + $scope.deletingMonument.id)
-                    .then(function(response) {
-                        $scope.loadMonuments();
-                        $scope.showToast('Monument deleted successfully!', 'success');
-                        $scope.showDeleteConfirm = false;
-                        $scope.deletingMonument = {};
-                    }, function(error) {
-                        console.error('Error deleting monument:', error);
-                        $scope.showToast('Failed to delete monument.', 'error');
-                    });
-            };
-            
-            // Form validation
-            $scope.isFormValid = function() {
-                return $scope.editingMonument.name && 
-                       $scope.editingMonument.era && 
-                       $scope.editingMonument.location &&
-                       $scope.editingMonument.shortDescription &&
-                       $scope.editingMonument.description &&
-                       $scope.editingMonument.image;
-            };
-            
-            // Feature management
-            $scope.addFeature = function() {
-                if ($scope.newFeature.trim() === '') return;
-                
-                if ($scope.editFeatureIndex >= 0) {
-                    // Editing existing feature
-                    $scope.editingMonument.features[$scope.editFeatureIndex] = $scope.newFeature;
-                    $scope.editFeatureIndex = -1;
-                } else {
-                    // Adding new feature
-                    $scope.editingMonument.features.push($scope.newFeature);
-                }
-                
+                $scope.showSuccessToast = false;
+                $scope.toastMessage = '';
+                $scope.loginData = { username: '', password: '' };
+                $scope.adminLoginData = { username: '', password: '' };
+
+                // Search and filter
+                $scope.searchText = '';
+                $scope.filterEra = '';
+                $scope.sortBy = 'name';
+
+                // Editor variables
+                $scope.editorMode = 'add';
+                $scope.editingMonument = {};
                 $scope.newFeature = '';
                 $scope.lastSaved = false;
-            };
-            
-            $scope.editFeature = function(index) {
-                $scope.newFeature = $scope.editingMonument.features[index];
-                $scope.editFeatureIndex = index;
-                $scope.lastSaved = false;
-            };
-            
-            $scope.removeFeature = function(index) {
-                $scope.editingMonument.features.splice(index, 1);
-                $scope.lastSaved = false;
-            };
-            
-            $scope.moveFeatureUp = function(index) {
-                if (index > 0) {
-                    var temp = $scope.editingMonument.features[index];
-                    $scope.editingMonument.features[index] = $scope.editingMonument.features[index - 1];
-                    $scope.editingMonument.features[index - 1] = temp;
+                $scope.editFeatureIndex = -1;
+
+                // Delete variables
+                $scope.deletingMonument = {};
+
+                // Ticket booking variables
+                $scope.adultTickets = 0;
+                $scope.childTickets = 0;
+                $scope.seniorTickets = 0;
+                $scope.studentTickets = 0;
+
+                // Calculate total ticket price
+                $scope.calculateTotal = function () {
+                    return ($scope.adultTickets || 0) * 200 +
+                        ($scope.childTickets || 0) * 100 +
+                        ($scope.seniorTickets || 0) * 150 +
+                        ($scope.studentTickets || 0) * 120;
+                };
+
+                $scope.monuments = [];
+
+                $scope.loadMonuments = function () {
+                    $http.get('/api/Values')
+                        .then(function (response) {
+                            $scope.monuments = response.data.map(function (item) {
+                                return {
+                                    id: item.id,
+                                    name: item.title,
+                                    era: item.era,
+                                    location: item.location,
+                                    discovered: new Date(item.discoverd).getFullYear().toString(),
+                                    shortDescription: item.description ? item.description.substring(0, 100) + '...' : '',
+                                    description: item.description,
+                                    image: item.image || 'https://via.placeholder.com/400x240/1a2a3a/ffffff?text=No+Image',
+                                    features: item.keyFeatures || [],
+                                    status: 'published',
+                                    views: 0,
+                                    favorites: 0
+                                };
+                            });
+                            $scope.featuredMonuments = $scope.monuments.slice(0, 6);
+                        }, function (error) {
+                            console.error('Error loading monuments:', error);
+                            $scope.showToast('Failed to load monuments.', 'error');
+                        });
+                };
+
+                // Call loadMonuments immediately
+                $scope.loadMonuments();
+
+                // Featured monuments for home page
+                $scope.featuredMonuments = [];
+
+                // Navigation functions
+                $scope.showHome = function () {
+                    $scope.currentView = 'home';
+                };
+
+                $scope.showMonuments = function () {
+                    $scope.currentView = 'monuments';
+                };
+
+                $scope.showAbout = function () {
+                    $scope.currentView = 'about';
+                };
+
+                $scope.showAdmin = function () {
+                    if ($scope.isAdmin) {
+                        $scope.currentView = 'admin';
+                    }
+                };
+
+                // Show monument detail
+                $scope.showMonumentDetail = function (monument) {
+                    $scope.selectedMonument = monument;
+                    $scope.currentView = 'detail';
+                };
+
+                // View monument details
+                $scope.viewMonument = function (monument) {
+                    $scope.selectedMonument = monument;
+                    $scope.currentView = 'detail';
+                    // Increment view count
+                    if (!monument.views) monument.views = 0;
+                    monument.views++;
+                };
+
+                // Admin login
+                $scope.showAdminLogin = function () {
+                    $scope.showAdminLoginModal = true;
+                };
+
+                $scope.performAdminLogin = function () {
+                    $http.post('/api/Auth/login', $scope.adminLoginData)
+                        .then(function (response) {
+                            $scope.isAdmin = true;
+                            $scope.showAdminLoginModal = false;
+                            $scope.currentView = 'admin';
+                            localStorage.setItem('jwt_token', response.data.token);
+                            $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                            $scope.showToast('Admin authentication successful! Welcome to the administration panel.', 'success');
+                        }, function (error) {
+                            $scope.showToast('Login failed: ' + (error.data.message || 'Unknown error'), 'error');
+                        });
+                };
+
+                $scope.logoutAdmin = function () {
+                    $scope.isAdmin = false;
+                    $scope.currentView = 'home';
+                    localStorage.removeItem('jwt_token');
+                    delete $http.defaults.headers.common.Authorization;
+                    $scope.showToast('You have been logged out successfully.', 'info');
+                };
+
+                $scope.showUserLogin = function () {
+                    $scope.showUserLoginModal = true;
+                };
+
+                $scope.closeUserLogin = function () {
+                    $scope.showUserLoginModal = false;
+                };
+
+                $scope.closeAdminLogin = function () {
+                    $scope.showAdminLoginModal = false;
+                };
+
+                $scope.performUserLogin = function () {
+                    $http.post('/api/Auth/login', $scope.loginData)
+                        .then(function (response) {
+                            $scope.isUser = true;
+                            $scope.showUserLoginModal = false;
+                            localStorage.setItem('jwt_token', response.data.token);
+                            $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                            $scope.showToast('User login successful! Welcome back.', 'success');
+                        }, function (error) {
+                            $scope.showToast('Login failed: ' + (error.data.message || 'Unknown error'), 'error');
+                        });
+                };
+
+                // Search and filter
+                $scope.searchFilter = function (monument) {
+                    var matchesSearch = !$scope.searchText ||
+                        monument.name.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                        monument.location.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                        monument.shortDescription.toLowerCase().includes($scope.searchText.toLowerCase());
+
+                    var matchesEra = !$scope.filterEra || monument.era === $scope.filterEra;
+
+                    return matchesSearch && matchesEra;
+                };
+
+                // Statistics functions
+                $scope.getViewsCount = function () {
+                    return $scope.monuments.reduce(function (total, monument) {
+                        return total + (monument.views || 0);
+                    }, 0);
+                };
+
+                $scope.getUniqueVisitors = function () {
+                    // In a real app, this would be calculated from actual visitor data
+                    return Math.floor($scope.getViewsCount() * 0.3);
+                };
+
+                $scope.getFavoritesCount = function () {
+                    return $scope.monuments.reduce(function (total, monument) {
+                        return total + (monument.favorites || 0);
+                    }, 0);
+                };
+
+                // CRUD Operations
+
+                // CREATE - Add new monument
+                $scope.showAddForm = function () {
+                    $scope.editorMode = 'add';
+                    $scope.editingMonument = {
+                        id: $scope.monuments.length + 1,
+                        name: '',
+                        era: '',
+                        location: '',
+                        discovered: '',
+                        shortDescription: '',
+                        description: '',
+                        image: '',
+                        features: [],
+                        status: 'draft',
+                        views: 0,
+                        favorites: 0
+                    };
+                    $scope.showEditor = true;
                     $scope.lastSaved = false;
-                }
-            };
-            
-            $scope.moveFeatureDown = function(index) {
-                if (index < $scope.editingMonument.features.length - 1) {
-                    var temp = $scope.editingMonument.features[index];
-                    $scope.editingMonument.features[index] = $scope.editingMonument.features[index + 1];
-                    $scope.editingMonument.features[index + 1] = temp;
+                    $scope.newFeature = '';
+                    $scope.editFeatureIndex = -1;
+                };
+
+                // READ - Edit existing monument
+                $scope.editMonument = function (monument) {
+                    $scope.editorMode = 'edit';
+                    // Create a deep copy to avoid modifying the original until saved
+                    $scope.editingMonument = angular.copy(monument);
+                    $scope.showEditor = true;
                     $scope.lastSaved = false;
-                }
-            };
-            
-            // Preview monument
-            $scope.previewMonument = function() {
-                // In a real app, this would open a preview in a new tab or modal
-                alert('Preview functionality would show how the monument appears to visitors.');
-            };
-            
-            // Close editor
-            $scope.closeEditor = function() {
-                if (!$scope.lastSaved && ($scope.editingMonument.name || $scope.editingMonument.description)) {
-                    if (confirm('You have unsaved changes. Are you sure you want to close the editor?')) {
+                    $scope.newFeature = '';
+                    $scope.editFeatureIndex = -1;
+                };
+
+                // UPDATE - Save monument
+                $scope.saveMonument = function () {
+                    console.log("Starting saveMonument...");
+
+                    if (!$scope.isFormValid()) {
+                        $scope.showToast('Please fill in all required fields.', 'error');
+                        return;
+                    }
+
+                    // VALIDATION: Checks if KeyFeatures is null and initializes it to [] if needed
+                    if (!$scope.editingMonument.features) {
+                        $scope.editingMonument.features = [];
+                    }
+
+                    // DATE FIX: robustly handles the Discoverd field
+                    var discoverdDate = $scope.editingMonument.discovered ? new Date($scope.editingMonument.discovered) : new Date();
+                    if (isNaN(discoverdDate.getTime())) {
+                        discoverdDate = new Date();
+                    }
+
+                    var apiPayload = {
+                        Title: $scope.editingMonument.name,
+                        Description: $scope.editingMonument.description,
+                        Era: $scope.editingMonument.era,
+                        Location: $scope.editingMonument.location,
+                        Discoverd: discoverdDate,
+                        KeyFeatures: $scope.editingMonument.features,
+                        Image: $scope.editingMonument.image,
+                        Id: $scope.editorMode === 'edit' ? $scope.editingMonument.id : 0
+                    };
+
+                    console.log("Sending payload:", apiPayload);
+
+                    $http.post('/api/Values', apiPayload)
+                        .then(function (response) {
+                            $scope.loadMonuments();
+                            $scope.showToast($scope.editorMode === 'edit' ? 'Monument updated successfully!' : 'New monument created successfully!', 'success');
+                            $scope.lastSaved = true;
+
+                            // Close editor after a short delay
+                            $timeout(function () {
+                                $scope.showEditor = false;
+                            }, 1500);
+                        })
+                        .catch(function (error) {
+                            console.error('Error saving monument:', error);
+                            $scope.showToast('Failed to save monument.', 'error');
+                        });
+                };
+
+                // DELETE - Confirm and delete monument
+                $scope.confirmDelete = function (monument) {
+                    $scope.deletingMonument = monument;
+                    $scope.showDeleteConfirm = true;
+                };
+
+                $scope.cancelDelete = function () {
+                    $scope.showDeleteConfirm = false;
+                    $scope.deletingMonument = {};
+                };
+
+                $scope.deleteMonument = function () {
+                    $http.delete('/api/Values?id=' + $scope.deletingMonument.id)
+                        .then(function (response) {
+                            $scope.loadMonuments();
+                            $scope.showToast('Monument deleted successfully!', 'success');
+                            $scope.showDeleteConfirm = false;
+                            $scope.deletingMonument = {};
+                        }, function (error) {
+                            console.error('Error deleting monument:', error);
+                            $scope.showToast('Failed to delete monument.', 'error');
+                        });
+                };
+
+                // Form validation
+                $scope.isFormValid = function () {
+                    return $scope.editingMonument.name &&
+                        $scope.editingMonument.era &&
+                        $scope.editingMonument.location &&
+                        $scope.editingMonument.shortDescription &&
+                        $scope.editingMonument.description &&
+                        $scope.editingMonument.image;
+                };
+
+                // Feature management
+                $scope.addFeature = function () {
+                    if ($scope.newFeature.trim() === '') return;
+
+                    if ($scope.editFeatureIndex >= 0) {
+                        // Editing existing feature
+                        $scope.editingMonument.features[$scope.editFeatureIndex] = $scope.newFeature;
+                        $scope.editFeatureIndex = -1;
+                    } else {
+                        // Adding new feature
+                        $scope.editingMonument.features.push($scope.newFeature);
+                    }
+
+                    $scope.newFeature = '';
+                    $scope.lastSaved = false;
+                };
+
+                $scope.editFeature = function (index) {
+                    $scope.newFeature = $scope.editingMonument.features[index];
+                    $scope.editFeatureIndex = index;
+                    $scope.lastSaved = false;
+                };
+
+                $scope.removeFeature = function (index) {
+                    $scope.editingMonument.features.splice(index, 1);
+                    $scope.lastSaved = false;
+                };
+
+                $scope.moveFeatureUp = function (index) {
+                    if (index > 0) {
+                        var temp = $scope.editingMonument.features[index];
+                        $scope.editingMonument.features[index] = $scope.editingMonument.features[index - 1];
+                        $scope.editingMonument.features[index - 1] = temp;
+                        $scope.lastSaved = false;
+                    }
+                };
+
+                $scope.moveFeatureDown = function (index) {
+                    if (index < $scope.editingMonument.features.length - 1) {
+                        var temp = $scope.editingMonument.features[index];
+                        $scope.editingMonument.features[index] = $scope.editingMonument.features[index + 1];
+                        $scope.editingMonument.features[index + 1] = temp;
+                        $scope.lastSaved = false;
+                    }
+                };
+
+                // Preview monument
+                $scope.previewMonument = function () {
+                    // In a real app, this would open a preview in a new tab or modal
+                    alert('Preview functionality would show how the monument appears to visitors.');
+                };
+
+                // Close editor
+                $scope.closeEditor = function () {
+                    if (!$scope.lastSaved && ($scope.editingMonument.name || $scope.editingMonument.description)) {
+                        if (confirm('You have unsaved changes. Are you sure you want to close the editor?')) {
+                            $scope.showEditor = false;
+                        }
+                    } else {
                         $scope.showEditor = false;
                     }
-                } else {
-                    $scope.showEditor = false;
-                }
-            };
-            
-            // Refresh data
-            $scope.refreshData = function() {
-                $scope.showToast('Data refreshed successfully!', 'info');
-            };
-            
-            // Toast notifications
-            $scope.showToast = function(message, type) {
-                $scope.toastMessage = message;
-                $scope.showSuccessToast = true;
-                
-                // Auto-hide after 5 seconds
-                $timeout(function() {
-                    $scope.hideToast();
-                }, 5000);
-            };
-            
-            $scope.hideToast = function() {
-                $scope.showSuccessToast = false;
-            };
-            
-            // Booking modal functions
-            $scope.showBookingModal = function() {
-                $scope.showBookingModal = true;
-            };
-            
-            $scope.closeBooking = function() {
-                $scope.showBookingModal = false;
-            };
-            
-            $scope.confirmBooking = function() {
-                if ($scope.calculateTotal() === 0) {
-                    alert('Please select at least one ticket.');
-                    return;
-                }
-                alert('Booking confirmed! Total: EGP ' + $scope.calculateTotal() + '\nYou will be redirected to payment.');
-                $scope.closeBooking();
-            };
-            
-            // File upload handler
-            document.addEventListener('DOMContentLoaded', function() {
-                document.getElementById('file-upload').addEventListener('change', function(e) {
-                    var file = e.target.files[0];
+                };
+
+                // Refresh data
+                $scope.refreshData = function () {
+                    $scope.showToast('Data refreshed successfully!', 'info');
+                };
+
+                // Toast notifications
+                $scope.showToast = function (message, type) {
+                    $scope.toastMessage = message;
+                    $scope.showSuccessToast = true;
+
+                    // Auto-hide after 5 seconds
+                    $timeout(function () {
+                        $scope.hideToast();
+                    }, 5000);
+                };
+
+                $scope.hideToast = function () {
+                    $scope.showSuccessToast = false;
+                };
+
+                // Booking modal functions
+                $scope.showBookingModal = function () {
+                    $scope.showBookingModal = true;
+                };
+
+                $scope.closeBooking = function () {
+                    $scope.showBookingModal = false;
+                };
+
+                $scope.confirmBooking = function () {
+                    if ($scope.calculateTotal() === 0) {
+                        alert('Please select at least one ticket.');
+                        return;
+                    }
+                    alert('Booking confirmed! Total: EGP ' + $scope.calculateTotal() + '\nYou will be redirected to payment.');
+                    $scope.closeBooking();
+                };
+
+                // --- ADD THIS NEW FUNCTION ---
+                $scope.uploadFile = function (files) {
+                    var file = files[0];
                     if (file) {
-                        // In a real application, you would upload the file to a server
-                        // For this demo, we'll just create a fake URL
+                        // Check file size (limit to 2MB to prevent database lag)
+                        if (file.size > 2 * 1024 * 1024) {
+                            alert("File is too large! Please choose an image under 2MB.");
+                            return;
+                        }
+
                         var reader = new FileReader();
-                        reader.onload = function(event) {
-                            $scope.$apply(function() {
+                        reader.onload = function (event) {
+                            $scope.$apply(function () {
+                                // Convert file to Base64 string
                                 $scope.editingMonument.image = event.target.result;
                                 $scope.lastSaved = false;
                             });
                         };
                         reader.readAsDataURL(file);
                     }
+                };
+                // -----------------------------
+
+                // File upload handler
+                document.addEventListener('DOMContentLoaded', function () {
+                    document.getElementById('file-upload').addEventListener('change', function (e) {
+                        var file = e.target.files[0];
+                        if (file) {
+                            // In a real application, you would upload the file to a server
+                            // For this demo, we'll just create a fake URL
+                            var reader = new FileReader();
+                            reader.onload = function (event) {
+                                $scope.$apply(function () {
+                                    $scope.editingMonument.image = event.target.result;
+                                    $scope.lastSaved = false;
+                                });
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
                 });
             });
-        });
     </script>
 </body>
+
 </html>
